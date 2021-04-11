@@ -71,15 +71,17 @@ def class_get():
 def admin_login():
     pass
 
-@app.route('/pre_course_query', methods=['GET','POST'])
+@app.route('/pre_course_query/', methods=['GET','POST'])
 def check_pre():
     cid=request.args.get('course_id')
-    sid=request.args.get('sid')
-    return pre(cid, sid)
+    sid=request.args.get('s_sid')
+    con=pre(cid,sid)
+    print(con)
+    return con
 
 
 if __name__ == '__main__':
-    app.run('10.17.70.0', 8000)
+    app.run('10.17.118.214', 8000)
 
 
 

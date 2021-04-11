@@ -2,7 +2,7 @@
 
 window.onload=function () {
     console.log("start")
-    var sid = Utils.getRequest(sid);
+    var sid = Utils.getRequest().sid;
     var t_sid=document.getElementById("sid");
     var t_name=document.getElementById("name");
     var t_college=document.getElementById("college");
@@ -56,7 +56,8 @@ window.onload=function () {
 }
 
 function query() {
-    var sid = Utils.getRequest(sid);
+    var sid = Utils.getRequest().sid;
+    console.log(sid);
     var course_id=document.getElementById("course_id").value;
     var hint=document.getElementById('hint');
     if(course_id.length===0){
@@ -69,10 +70,14 @@ function query() {
             dataType: 'jsonp',
             jsonpCallback: 'pre_course_query',
             data: {
-                'sid':sid,
+                's_sid':sid,
                 'course_id':course_id
             },
+            complete:function (data,textStatus){
+                console.log(data);
+            },
             success:function (data) {
+                console.log(data);
                 var show_classes=document.getElementById('class_qualified');
                 if(data.list.length===0){
 
