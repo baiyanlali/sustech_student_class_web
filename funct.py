@@ -138,22 +138,23 @@ def insert_course(cid, c_name, tot_cap, c_hour, c_dept, c_credit, pres):
 
 
         #insert encode
-        en_pattern, length=encode(pres)
-        cur.execute("""insert into pre_encode(course_id, encode_pattern, length) 
-            VALUES ('%s','%s',%d)"""%(cid, en_pattern, length))
-
-        #insert pre_std_names
-        all_pres=get_course_name(pres)
-        for i in range(len(all_pres)):
-            c=all_pres[i]
-            cur.execute("""insert into pre_std_name(host_courseid, standard_name, num) 
-                    values ('%s','%s',%d)"""%(cid, c, i))
+        # en_pattern, length=encode(pres)
+        # cur.execute("""insert into pre_encode(course_id, encode_pattern, length)
+        #     VALUES ('%s','%s',%d)"""%(cid, en_pattern, length))
+        #
+        # #insert pre_std_names
+        # all_pres=get_course_name(pres)
+        # for i in range(len(all_pres)):
+        #     c=all_pres[i]
+        #     cur.execute("""insert into pre_std_name(host_courseid, standard_name, num)
+        #             values ('%s','%s',%d)"""%(cid, c, i))
 
         t={'status': 'done it'}
-    except :
+    except Exception as e:
+        print(e)
         t={'status': 'damn it, we fail it.'}
 
     t = json.dumps(t)
-    print("Add student:"+t)
+
     tt = "%s(%s)" % ("admin_add_student", t)
     return tt
