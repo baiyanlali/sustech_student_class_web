@@ -1,3 +1,5 @@
+import json
+
 import psycopg2 as psy
 from Pre_operation import check_satisfy
 
@@ -81,5 +83,6 @@ def pre(cid, sid):
     else:
         reply=False
     t={'list':done,'qualified':reply}
-    tt='(%s(%s)'%('pre_course_query',t)
+    t = json.dumps(t)
+    tt='%s(%s)'%('pre_course_query',t)
     return tt

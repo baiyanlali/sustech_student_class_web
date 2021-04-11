@@ -44,10 +44,6 @@ window.onload=function () {
                     );
 
                 }
-                // t_classes.innerHTML="<th>课程:</th>\n" +
-                //     "            <td ></td>\n" +
-                //     "            <th>简称:</th>\n" +
-                //     "            <td ></td>";
 
             }
         }
@@ -73,17 +69,20 @@ function query() {
                 's_sid':sid,
                 'course_id':course_id
             },
-            complete:function (data,textStatus){
-                console.log(data);
-            },
-            success:function (data) {
+            success:function (data,textStatus) {
+                console.log('success')
                 console.log(data);
                 var show_classes=document.getElementById('class_qualified');
+                var pres=document.getElementById("pres");
+                var result=document.getElementById("result");
                 if(data.list.length===0){
-
+                    hint.innerText='查无此课';
                 }else{
+                    pres.innerText="需要上这门课,你需要预先学习:"+data.pres;
                     show_classes.innerText="要上这门课,你已经修过的魔法有:"+data.list+"\n";
-                    show_classes.innerText+="所以,你"+data.qualified?"":"不"+"能上这门课";
+                    str="所以,你"+data.qualified?"":"不"+"能上这门课";
+                    result.innerText= str;
+
                 }
             }
 
