@@ -11,7 +11,7 @@ var Utils={
             for (const string of strr) {
                 var params=string.split("=");
                 con[params[0]]=params[1];
-                console.log("pa0:"+params[0]+"\npa1:"+params[1]);
+                // console.log("pa0:"+params[0]+"\npa1:"+params[1]);
             }
             return con;
         }
