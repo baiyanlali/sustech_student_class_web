@@ -8,48 +8,8 @@ import json
 
 from flask import Flask, render_template
 from flask import escape, url_for, request, jsonify
+from funct import get_class, info, pre
 import psycopg2 as psy
-
-
-def info(sid):
-    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
-                     port='5432')
-    cur = db.cursor()
-    cur.execute("set search_path = 'Public'")
-    cur.execute("""select name,case gender when 'F' then '女' when 'M' then '男' end as gender, college
-                from student s
-                where s.student_id='%s'
-                """ % sid)
-    rows1 = cur.fetchall()
-
-    return rows1
-
-
-def get_class(sid):
-    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
-                     port='5432')
-    cur = db.cursor()
-    cur.execute("set search_path = 'Public'")
-
-    cur.execute("""select course_id,c.coursename,c.coursecredit,c.coursedept
-                from coursedone
-                left join course c on c.courseid=course_id
-                where student_id='%s'
-                """ % sid)
-    rows = cur.fetchall()
-
-    data_con=[]
-    for row in rows:
-
-        data={
-            "course_id":row[0],
-            "course_name":row[1],
-            "course_credit":row[2],
-            "course_dept":row[3]
-        }
-        data_con.append(data)
-    return data_con
-
 
 app = Flask(__name__)
 
@@ -111,8 +71,15 @@ def class_get():
 def admin_login():
     pass
 
+@app.route('/pre_course_query', methods=['GET','POST'])
+def check_pre():
+    cid=request.args.get('course_id')
+    sid=request.args.get('sid')
+    return pre(cid, sid)
+
 
 if __name__ == '__main__':
-    app.run('10.17.118.214', 8000)
+    app.run('10.17.70.0', 8000)
+
 
 
