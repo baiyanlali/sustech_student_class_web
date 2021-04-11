@@ -17,9 +17,9 @@ window.onload=function () {
     t_profile.innerText=param['gender'];
 
     t_classes.insertAdjacentHTML("afterbegin","<th>已修课id</th>" +
-        "<td>名称</td>"+
-        "<td>学分</td>"+
-        "<td>部门</td>");
+        "<th>名称</th>"+
+        "<th>学分</th>"+
+        "<th>部门</th>");
     $.ajax(
         {
             url:Utils.server+"class_get",
@@ -37,7 +37,7 @@ window.onload=function () {
                 console.log(data);
 
                 for (var arr of data) {
-                    t_classes.insertAdjacentHTML("afterend", "<th>"+arr.course_id+"</th>" +
+                    t_classes.insertAdjacentHTML("afterend", "<td>"+arr.course_id+"</td>" +
                         "<td>"+arr.course_name+"</td>"+
                         "<td>"+arr.course_credit+"</td>"+
                         "<td>"+arr.course_dept+"</td>"
@@ -53,4 +53,35 @@ window.onload=function () {
         }
     );
 
+}
+
+function query() {
+    var sid = Utils.getRequest(sid);
+    var course_id=document.getElementById("course_id").value;
+    var hint=document.getElementById('hint');
+    if(course_id.length===0){
+        hint.innerText='请输入课程信息哦!';
+    }
+    $.ajax(
+        {
+            url:Utils.server+"pre_course_query",
+            type: 'get',
+            dataType: 'jsonp',
+            jsonpCallback: 'pre_course_query',
+            data: {
+                'sid':sid,
+                'course_id':course_id
+            },
+            success:function (data) {
+                var show_classes=document.getElementById('class_qualified');
+                if(data.list.length===0){
+
+                }else{
+                    show_classes.innerText="要上这门课,你已经修过的魔法有:"+data.list+"\n";
+                    show_classes.innerText+="所以,你"+data.qualified?"":"不"+"能上这门课";
+                }
+            }
+
+        }
+    )
 }
