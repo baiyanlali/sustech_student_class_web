@@ -156,5 +156,30 @@ def insert_course(cid, c_name, tot_cap, c_hour, c_dept, c_credit, pres):
         t={'status': 'damn it, we fail it.'}
 
     t = json.dumps(t)
-    tt = "%s(%s)" % ("admin_add_student", t)
+    tt = "%s(%s)" % ("admin_add_course", t)
+    return tt
+
+
+#add teacher
+def insert_teacher(name):
+    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
+                     port='5432')
+    cur = db.cursor()
+    cur.execute("set search_path = 'Public'")
+
+
+    print("Add teacher:BEFORE SQL")
+    try:
+        # insert course
+        cur.execute("""insert into teachers(teacherid, name) 
+        VALUES (default, '%s')"""%(name))
+
+        cur.execute("commit")
+        t = {'status': 'done it'}
+    except psy.DatabaseError as e:
+        print(e)
+        t = {'status': 'damn it, we fail it.'}
+
+    t = json.dumps(t)
+    tt = "%s(%s)" % ("admin_add_teacher", t)
     return tt
