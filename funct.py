@@ -2,6 +2,7 @@ import json
 
 import psycopg2 as psy
 from Pre_operation import check_satisfy
+from flask import json
 
 def info(sid):
     db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
@@ -76,13 +77,21 @@ def pre(cid, sid):
     encode_r = rows2[0][0]
     length_r = rows2[0][1]
 
+
+    #get raw expression of pre
+    cur.execute("""select prerequisite
+                from course
+                where courseid='%s'""" % (cid))
+    rows3 = cur.fetchall()
+    raw_pre=rows3[0][0]
+
     check=check_satisfy(encode_r,length_r, pre_list)
 
     if check==1 or length_r==0:
         reply=True
     else:
         reply=False
-    t={'list':done,'qualified':reply}
-    t = json.dumps(t)
+    t={'list':done,'qualified':reply, 'pres':raw_pre}
+    t=json.dumps(t)
     tt='%s(%s)'%('pre_course_query',t)
     return tt
