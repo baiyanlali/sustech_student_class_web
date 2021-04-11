@@ -1,5 +1,7 @@
+import re
+
 from http_server import get_class, class_get, push_name
-from Pre_operation import check_satisfy
+from Pre_operation import check_satisfy, get_course_name, encode
 import psycopg2 as psy
 from flask import json
 
@@ -86,8 +88,45 @@ def insert_ss(name, gender, college, sid, pres):
     tt = "%s(%s)" % ("admin_add_student", t)
     return tt
 
+
+def insert_course(cid, c_name, tot_cap, c_hour, c_dept, c_credit, pres):
+    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
+                     port='5432')
+    cur = db.cursor()
+    cur.execute("set search_path = 'Public'")
+
+    std=re.sub(r'\(|\)|\s|（|）', "", c_name)
+    print("Add course:BEFORE SQL")
+    try:
+        #insert course
+        cur.execute("""insert into course(courseid, totalcapacity, coursename, coursehour, coursedept, coursecredit, standard_name, prerequisite)
+        VALUES ('%s',%d,'%s','%s','%s',%f, '%s','%s') """ % (cid, tot_cap, c_name, c_hour,c_dept,c_credit,std,pres ))
+
+
+        #insert encode
+        en_pattern, length=encode(pres)
+        cur.execute("""insert into pre_encode(course_id, encode_pattern, length) 
+            VALUES ('%s','%s',%d)"""%(cid, en_pattern, length))
+
+        #insert pre_std_names
+        all_pres=get_course_name(pres)
+        for i in range(len(all_pres)):
+            c=all_pres[i]
+            cur.execute("""insert into pre_std_name(host_courseid, standard_name, num) 
+                    values ('%s','%s',%d)"""%(cid, c, i))
+
+        cur.execute("commit")
+        t={'status': 'done it'}
+    except psy.DatabaseError as e:
+        print(e)
+        t={'status': 'damn it, we fail it.'}
+
+    t = json.dumps(t)
+    tt = "%s(%s)" % ("admin_add_student", t)
+    return tt
+
 if __name__ == '__main__':
-    a=insert_ss('mars','M','sd,','99',['1','2'])
+    t=inser_course('456','test2',10,32,'CS',4,'大学物理下（A） 或者 高等数学(上）' )
 
 
 
