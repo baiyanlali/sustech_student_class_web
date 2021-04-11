@@ -8,7 +8,7 @@ import json
 
 from flask import Flask, render_template
 from flask import escape, url_for, request, jsonify
-from funct import get_class, info, pre, insert_ss
+from funct import get_class, info, pre, insert_ss, insert_course
 import psycopg2 as psy
 
 app = Flask(__name__)
@@ -94,6 +94,21 @@ def add_ss():
     course_raw=request.args.get("pres")
     course=course_raw.split(',')
     con=insert_ss(name, gender, college, sid, course)
+    print(con)
+    return con
+
+
+@app.route('/admin_add_course/',methods=['GET', 'POST'])
+def add_course():
+    print("start to add course")
+    cid=request.args.get("course_id")
+    c_name=request.args.get("course_name")
+    tot_cap=request.args.get("total_capacity")
+    c_hour=request.args.get("course_hour")
+    c_dept=request.args.get("course_dept")
+    c_credit=request.args.get("course_credit")
+    pres=request.args.get("pres")
+    con=insert_course(cid, c_name,tot_cap,c_hour,c_dept,c_credit, pres)
     print(con)
     return con
 

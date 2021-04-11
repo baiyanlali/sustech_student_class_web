@@ -1,9 +1,9 @@
 import json
 
 import psycopg2 as psy
-from Pre_operation import check_satisfy
+from Pre_operation import check_satisfy, encode, get_course_name
 from flask import json
-
+import re
 def info(sid):
     db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
                      port='5432')
@@ -112,6 +112,43 @@ def insert_ss(name, gender, college, sid, pres):
             cur.execute("""insert into coursedone(student_id, course_id)
             values ('%s','%s') """ % (sid, c))
         cur.execute("commit")
+        t={'status': 'done it'}
+    except :
+        t={'status': 'damn it, we fail it.'}
+
+    t = json.dumps(t)
+    print("Add student:"+t)
+    tt = "%s(%s)" % ("admin_add_student", t)
+    return tt
+
+
+#admin_add_course
+def insert_course(cid, c_name, tot_cap, c_hour, c_dept, c_credit, pres):
+    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
+                     port='5432')
+    cur = db.cursor()
+    cur.execute("set search_path = 'Public'")
+
+    std=re.sub(r'\(|\)|\s|（|）', "", c_name)
+    print("Add course:BEFORE SQL")
+    try:
+        #insert course
+        cur.execute("""insert into course(courseid, totalcapacity, coursename, coursehour, coursedept, coursecredit, standard_name, prerequisite)
+        VALUES ('%s',%d,'%s','%s','%s',%f, '%s', '%s') """ % (cid, tot_cap, c_name, c_hour,c_dept,c_credit,std))
+
+
+        #insert encode
+        en_pattern, length=encode(pres)
+        cur.execute("""insert into pre_encode(course_id, encode_pattern, length) 
+            VALUES ('%s','%s',%d)"""%(cid, en_pattern, length))
+
+        #insert pre_std_names
+        all_pres=get_course_name(pres)
+        for i in range(len(all_pres)):
+            c=all_pres[i]
+            cur.execute("""insert into pre_std_name(host_courseid, standard_name, num) 
+                    values ('%s','%s',%d)"""%(cid, c, i))
+
         t={'status': 'done it'}
     except :
         t={'status': 'damn it, we fail it.'}
