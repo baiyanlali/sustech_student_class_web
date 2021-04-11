@@ -10,7 +10,7 @@ function changeTab(num){
 
     }
     for (let i = 0; i < tab_list.length; i++) {
-            tab_list[num].className = "";
+            tab_list[i].className = "";
     }
     tab_list[num].className="active";
     console.log(num)
