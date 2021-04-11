@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='student_login.css')}}">
+    <meta charset="UTF-8">
+    <title>霍格沃兹学生登录</title>
+</head>
+<body>
+<h1>学生登录</h1>
+<p>
+<p1>请输入学号:</p1>
+<input id="sid" type="text" required>
+<button onclick="onSubmit()">登录</button>
+</p>
+<p id="hint"></p>
+
+<script src="{{url_for('static',filename='Utils.js')}}"></script>
+<script src="{{url_for('static',filename='student_login.js')}}"> </script>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p id="ppp"></p>
+<script src="{{url_for('static',filename='Utils.js')}}"></script>
+<script>
+document.getElementById("ppp").innerHTML=Utils.getRequest()["a"];
+</script>
+</body>
+</html>

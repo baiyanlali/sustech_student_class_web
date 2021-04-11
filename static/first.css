@@ -1,0 +1,16 @@
+h1{
+    font-style: revert;
+    font-size: 30pt;
+    text-align: center;
+}
+
+button{
+    position: relative;
+    left: 40%;
+    width: 20%;
+    height: 30%;
+}
+
+body{
+    background: #aaffb6;
+}

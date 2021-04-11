@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='admin_login.css')}}">
+    <meta charset="UTF-8">
+    <title>霍格沃兹管理员登录</title>
+</head>
+<body>
+<h1>管理员登录</h1>
+<p>
+    <p1>请输入膜法指令:</p1>
+    <input id="sid" type="password" required>
+    <button onclick="onSubmit()">登录</button>
+</p>
+<p id="hint"></p>
+
+
+<script>
+    function onSubmit(){
+        var id=document.getElementById("sid");
+        var hint=document.getElementById("hint");
+        if(id.value!=="miaow"){
+            hint.innerHTML="你是麻瓜!";
+        }else{
+            hint.innerText="正准备飞天扫帚...";
+            $.ajax(
+                {
+                    url: "http://10.17.70.0:8000/admin_login",
+                    type:'get',
+                    dataType:'jsonp',
+                    jsonp:'success',
+                    jsonpCallback:'success',
+                    data:{
+                        sid:sid.value
+                    },
+                    complete:function (data,textStatus){
+                        console.log(textStatus);
+                        console.log(data);
+                    },
+                    success:function (data,textStatus){
+                        console.log("Success");
+                        console.log(data);
+                        window.open("../student_home/student_home.html?sid="+data.sid+"&name="+data.name+"&college="+data.college);
+
+                    }
+                }
+            )
+        }
+    }
+</script>
+</body>
+</html>
