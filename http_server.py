@@ -33,7 +33,7 @@ def get_class(sid):
 
     cur.execute("""select course_id,c.coursename,c.coursecredit,c.coursedept
                 from coursedone
-                join course c on c.courseid=course_id
+                left join course c on c.courseid=course_id
                 where student_id='%s'
                 """ % sid)
     rows = cur.fetchall()
