@@ -25,6 +25,10 @@ def push_name(name):
     # nnammee='%s' % escape(name)
     # index = nnammee.split('/')
     # names=index[-1]
+    if name=="favicon.ico":
+        with open('templates/favicon.ico','rb') as f:
+            return f.read()
+
     return render_template(name)
     # return 'user: %s' % escape(name)
 

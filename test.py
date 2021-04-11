@@ -41,24 +41,23 @@ def pre(cid, sid):
     encode_r = rows2[0][0]
     length_r = rows2[0][1]
 
-
-    #get raw expression of pre
+    # get raw expression of pre
     cur.execute("""select prerequisite
                 from course
                 where courseid='%s'""" % (cid))
     rows3 = cur.fetchall()
-    raw_pre=rows3[0][0]
+    raw_pre = rows3[0][0]
 
-    check=check_satisfy(encode_r,length_r, pre_list)
+    check = check_satisfy(encode_r, length_r, pre_list)
 
-    if length_r==0 or check==1:
-        r=True
+    if length_r == 0 or check == 1:
+        r = True
     else:
-        r=False
-    return done,r, raw_pre
+        r = False
+    return done, r, raw_pre
 
 
-#admin_insert ss
+# admin_insert ss
 def insert_ss(name, gender, college, sid, pres):
     db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
                      port='5432')
@@ -68,18 +67,18 @@ def insert_ss(name, gender, college, sid, pres):
     try:
         cur.execute("""insert into student (name, gender, college, student_id)
         values ('%s','%s','%s', '%s') """ % (name, gender, college, sid))
+        cur.execute("commit")
+        # for c in pres:
+        #     cur.execute("""insert into coursedone(student_id, course_id)
+        #     values ('%s','%s') """ % (sid, c))
+        t = {'status': 'done it'}
+    except psy.DatabaseError as e:
+        print(e)
+        t = {'status': 'damn it, we fail it.'}
 
-        for c in pres:
-            cur.execute("""insert into coursedone(student_id, course_id)
-            values ('%s','%s') """ % (sid, c))
-        t={'status': 'done it'}
-    except :
-        t={'status': 'damn it, we fail it.'}
-
-    t = json.dump(t)
+    t = json.dumps(t)
     tt = "%s(%s)" % ("admin_add_student", t)
 
+
 if __name__ == '__main__':
-    a,b,c=pre('PHY203-15', "11128333")
-
-
+    insert_ss('a', 'M', 'c', 'd', 'CS307,CS208')
