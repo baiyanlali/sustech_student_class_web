@@ -93,3 +93,26 @@ def pre(cid, sid):
     t=json.dumps(t)
     tt='%s(%s)'%('pre_course_query',t)
     return tt
+
+
+#admin_ad
+def insert_ss(name, gender, college, sid, pres):
+    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
+                     port='5432')
+    cur = db.cursor()
+    cur.execute("set search_path = 'Public'")
+
+    try:
+        cur.execute("""insert into student (name, gender, college, student_id)
+        values ('%s','%s','%s', '%s') """ % (name, gender, college, sid))
+
+        for c in pres:
+            cur.execute("""insert into coursedone(student_id, course_id)
+            values ('%s','%s') """ % (sid, c))
+        t={'status': 'done it'}
+    except :
+        t={'status': 'damn it, we fail it.'}
+
+    t = json.dump(t)
+    tt = "%s(%s)" % ("admin_add_student", t)
+    return tt

@@ -1,6 +1,8 @@
 from http_server import get_class, class_get, push_name
 from Pre_operation import check_satisfy
 import psycopg2 as psy
+from flask import json
+
 
 # if __name__=="__main__":
 #     # push_name("student_home/student_home.html?sid=11911309&name=梁鲁降&college=赫奇帕奇(Hufflepuff)&gender=男")
@@ -54,6 +56,28 @@ def pre(cid, sid):
     else:
         r=False
     return done,r, raw_pre
+
+
+#admin_insert ss
+def insert_ss(name, gender, college, sid, pres):
+    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
+                     port='5432')
+    cur = db.cursor()
+    cur.execute("set search_path = 'Public'")
+
+    try:
+        cur.execute("""insert into student (name, gender, college, student_id)
+        values ('%s','%s','%s', '%s') """ % (name, gender, college, sid))
+
+        for c in pres:
+            cur.execute("""insert into coursedone(student_id, course_id)
+            values ('%s','%s') """ % (sid, c))
+        t={'status': 'done it'}
+    except :
+        t={'status': 'damn it, we fail it.'}
+
+    t = json.dump(t)
+    tt = "%s(%s)" % ("admin_add_student", t)
 
 if __name__ == '__main__':
     a,b,c=pre('PHY203-15', "11128333")
