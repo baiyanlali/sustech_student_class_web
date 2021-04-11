@@ -8,7 +8,7 @@ import json
 
 from flask import Flask, render_template
 from flask import escape, url_for, request, jsonify
-from funct import get_class, info, pre
+from funct import get_class, info, pre, insert_ss
 import psycopg2 as psy
 
 app = Flask(__name__)
@@ -79,6 +79,16 @@ def check_pre():
     print(con)
     return con
 
+
+@app.route('/admin_add_student/', methods=['GET', 'POST'])
+def add_ss():
+    name=request.args.get('name')
+    sid=request.args.get('sid')
+    gender=request.args.get('gender')
+    college=request.args.get("college")
+    course_raw=request.args.get("pres")
+    course=course_raw.split(',')
+    return insert_ss(name, gender, college, sid, course)
 
 if __name__ == '__main__':
     app.run('10.17.118.214', 8000)
