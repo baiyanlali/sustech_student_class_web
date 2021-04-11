@@ -80,7 +80,11 @@ function query() {
                 }else{
                     pres.innerText="需要上这门课,你需要预先学习:"+data.pres;
                     show_classes.innerText="要上这门课,你已经修过的魔法有:"+data.list+"\n";
-                    str="所以,你"+data.qualified?"":"不"+"能上这门课";
+                    if(data.qualified==false)
+                        str="所以,你不能上这门课";
+                    else
+                        str="所以,你能上这门课";
+                    // str="所以,你"+data.qualified?"":"不"+"能上这门课";
                     result.innerText= str;
 
                 }

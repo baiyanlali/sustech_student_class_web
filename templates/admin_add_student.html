@@ -3,8 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>添加学生</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{{url_for('static',filename='Utils.js')}}"></script>
+    <script>
+        function onSubmit() {
+            var name=document.getElementById("name");
+            var sid=document.getElementById("sid");
+            var college=document.getElementById("college");
+            var pres=document.getElementById("pres");
+            var gender=document.forms['check']['gender'].value;
+            console.log('start submit'+name+sid+college+pres+gender);
+            if(name==""||sid==""||college==""||pres==""||gender==""){
+                document.getElementById('hint').innerText="输入有误,请重新输入";
+                return;
+            }
+            $.ajax(
+                {
+                    url:Utils.server+"admin_add_student",
+                    type: 'get',
+                    dataType: 'jsonp',
+                    jsonpCallback: 'admin_add_student',
+                    data: {
+                        'name':name,
+                        'sid':sid,
+                        'college':college,
+                        'pres':pres,
+                        'gender':gender
+                    },
+                    success:function (data,textStatus) {
+                        document.getElementById('hint').innerText=data.status;
+                    }
+                }
+            )
+        }
+    </script>
 </head>
 <body>
+<p><b>添加学生</b></p>
+
+<form name="check" onsubmit="onSubmit()">
+
+    <p>姓名:</p>
+    <input type="text" id="name" required><br>
+    <p>学号:</p>
+    <input type="text" id="sid" required><br>
+    <p>性别:</p>
+    <input type="radio" name="gender" value="F" required>女<br>
+    <input type="radio" name="gender" value="M" required>男<br>
+    <input type="radio" name="gender" value="M" required>兽人<br>
+    <p>书院:</p>
+    <input type="text" id="college" required><br>
+    <p>修过的课(用,隔开):</p>
+    <input type="text" id="pres"><br>
+    <input type="submit">添加
+<!--    <button onclick="onSubmit()">添加</button>-->
+</form>
+<p id="hint"></p>
 
 </body>
 </html>

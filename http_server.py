@@ -22,10 +22,10 @@ def hello():
 
 @app.route('/<name>')
 def push_name(name):
-    nnammee='%s' % escape(name)
-    index = nnammee.split('/')
-    names=index[-1]
-    return render_template(names)
+    # nnammee='%s' % escape(name)
+    # index = nnammee.split('/')
+    # names=index[-1]
+    return render_template(name)
     # return 'user: %s' % escape(name)
 
 
