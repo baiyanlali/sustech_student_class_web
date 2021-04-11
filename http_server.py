@@ -8,7 +8,7 @@ import json
 
 from flask import Flask, render_template
 from flask import escape, url_for, request, jsonify
-from funct import get_class, info, pre, insert_ss, insert_course
+from funct import get_class, info, pre, insert_ss, insert_course, insert_teacher
 import psycopg2 as psy
 
 app = Flask(__name__)
@@ -110,6 +110,13 @@ def add_course():
     pres=request.args.get("pres")
     con=insert_course(cid, c_name,tot_cap,c_hour,c_dept,c_credit, pres)
     print(con)
+    return con
+
+@app.route('/admin_add_teacher/', methods=['GET', 'POST'])
+def add_teacher():
+    print("start to add teacher")
+    name=request.args.get("name")
+    con=insert_teacher(name)
     return con
 
 if __name__ == '__main__':
