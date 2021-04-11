@@ -3,9 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>添加老师</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{{url_for('static',filename='Utils.js')}}"></script>
+    <script>
+        function onSubmit() {
+            var name=document.getElementById("name").value;
+            // console.log('start submit'+name+sid+college+pres+gender);
+            if(name==""){
+                document.getElementById('hint').innerText="输入有误,请重新输入";
+                return;
+            }
+            $.ajax(
+                {
+                    url:Utils.server+"admin_add_teacher",
+                    type: 'get',
+                    dataType: 'jsonp',
+                    jsonpCallback: 'admin_add_teacher',
+                    data: {
+                        'name':name,
+                    },
+                    success:function (data,textStatus) {
+                        console.log(data)
+                        document.getElementById('hint').innerText=data.status;
+                    }
+                }
+            )
+        }
+    </script>
 </head>
 <body>
 <p><b>添加老师</b></p>
+
+
+
+姓名:
+<input type="text" id="name" required><br>
+<button onclick="onSubmit()">添加</button>
+
+<p id="hint"></p>
 
 </body>
 </html>

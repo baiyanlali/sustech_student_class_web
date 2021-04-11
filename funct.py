@@ -111,6 +111,7 @@ def insert_ss(name, gender, college, sid, pres):
         for c in pres:
             cur.execute("""insert into coursedone(student_id, course_id)
             values ('%s','%s') """ % (sid, c))
+        cur.execute("commit")
         t={'status': 'done it'}
     except :
         t={'status': 'damn it, we fail it.'}

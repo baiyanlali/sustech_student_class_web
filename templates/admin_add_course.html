@@ -3,8 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>添加课程</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{{url_for('static',filename='Utils.js')}}"></script>
+    <script>
+        function onSubmit() {
+            var course_id=document.getElementById("course_id").value;
+            var course_name=document.getElementById("course_name").value;
+            var total_capacity=document.getElementById("total_capacity").value;
+            var course_hour=document.getElementById("course_hour").value;
+            var course_dept=document.getElementById("course_dept").value;
+            var course_credit=document.getElementById("course_credit").value;
+            var pres=document.getElementById("pres").value;
+            // console.log('start submit'+name+sid+college+pres+gender);
+            if(course_id==""||course_name==""||total_capacity==""||course_hour==""||course_dept==""||course_credit==""){
+                document.getElementById('hint').innerText="输入有误,请重新输入";
+                return;
+            }
+            $.ajax(
+                {
+                    url:Utils.server+"admin_add_course",
+                    type: 'get',
+                    dataType: 'jsonp',
+                    jsonpCallback: 'admin_add_course',
+                    data: {
+                        'course_id':course_id,
+                        'course_name':course_name,
+                        'total_capacity':total_capacity,
+                        'course_hour':course_hour,
+                        'course_dept':course_dept,
+                        'course_credit':course_credit,
+                        'pres':pres
+                    },
+                    success:function (data,textStatus) {
+                        console.log(data)
+                        document.getElementById('hint').innerText=data.status;
+                    }
+                }
+            )
+        }
+    </script>
 </head>
 <body>
 <p><b>添加课程</b></p>
+
+
+
+课程ID:
+<input type="text" id="course_id" required><br>
+课程名称:
+<input type="text" id="course_name" required><br>
+课程容量:
+<input type="text" id="total_capacity" required><br>
+课时:
+<input type="text" id="course_hour" required><br>
+部门:
+<input type="text" id="course_dept" required><br>
+学分:
+<input type="text" id="course_credit" required><br>
+先修:
+<input type="text" id="pres"><br>
+<button onclick="onSubmit()">添加</button>
+
+<p id="hint"></p>
+
 </body>
 </html>
