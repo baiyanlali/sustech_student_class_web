@@ -82,13 +82,16 @@ def check_pre():
 
 @app.route('/admin_add_student/', methods=['GET', 'POST'])
 def add_ss():
+    print("start to add student")
     name=request.args.get('name')
     sid=request.args.get('sid')
     gender=request.args.get('gender')
     college=request.args.get("college")
     course_raw=request.args.get("pres")
     course=course_raw.split(',')
-    return insert_ss(name, gender, college, sid, course)
+    con=insert_ss(name, gender, college, sid, course)
+    print(con)
+    return con
 
 if __name__ == '__main__':
     app.run('10.17.118.214', 8000)

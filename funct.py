@@ -103,7 +103,7 @@ def insert_ss(name, gender, college, sid, pres):
                      port='5432')
     cur = db.cursor()
     cur.execute("set search_path = 'Public'")
-
+    print("Add student:BEFORE SQL")
     try:
         cur.execute("""insert into student (name, gender, college, student_id)
         values ('%s','%s','%s', '%s') """ % (name, gender, college, sid))
@@ -115,6 +115,7 @@ def insert_ss(name, gender, college, sid, pres):
     except :
         t={'status': 'damn it, we fail it.'}
 
-    t = json.dump(t)
+    t = json.dumps(t)
+    print("Add student:"+t)
     tt = "%s(%s)" % ("admin_add_student", t)
     return tt
