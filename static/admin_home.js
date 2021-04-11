@@ -9,10 +9,9 @@ function changeTab(num){
         tab_list[3]=document.getElementById("quote_course");
 
     }
-    tab_list[num].class="active";
     for (let i = 0; i < tab_list.length; i++) {
-        if(i!==num)
-            tab_list[num].class="";
+            tab_list[num].className = "";
     }
+    tab_list[num].className="active";
     console.log(num)
 }
