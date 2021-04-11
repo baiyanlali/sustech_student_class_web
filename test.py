@@ -36,12 +36,18 @@ def pre(cid, sid):
             from pre_encode
             where course_id='%s'""" % (cid))
     rows2 = cur.fetchall()
-    encode = rows2[0][0]
-    length = rows2[0][1]
-    check=check_satisfy(encode,length, pre_list)
-    return done, check
+    encode_r = rows2[0][0]
+    length_r = rows2[0][1]
+
+    check=check_satisfy(encode_r,length_r, pre_list)
+
+    if length_r==0 or check==1:
+        r=True
+    else:
+        r=False
+    return done,r
 
 if __name__ == '__main__':
-    a,b=pre('CS202', "11128333")
+    a,b=pre('MSE330-16', "11128333")
 
 

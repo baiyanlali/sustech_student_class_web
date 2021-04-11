@@ -71,14 +71,15 @@ def pre(cid, sid):
             from pre_encode
             where course_id='%s'""" % (cid))
     rows2 = cur.fetchall()
-    encode = rows2[0][0]
-    length = rows2[0][1]
-    check=check_satisfy(encode,length, pre_list)
+    encode_r = rows2[0][0]
+    length_r = rows2[0][1]
 
-    if check==1 or length==0:
+    check=check_satisfy(encode_r,length_r, pre_list)
+
+    if check==1 or length_r==0:
         reply=True
     else:
         reply=False
     t={'list':done,'qualified':reply}
     tt='(%s(%s)'%('pre_course_query',t)
-    return t
+    return tt
