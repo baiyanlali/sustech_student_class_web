@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script src="{{url_for('static',filename='admin_home.js')}}"></script>
+    <title>膜法部</title>
+    <style>
+        ul{
+            list-style-type: none;
+            height: 100%;
+            position: fixed;
+            overflow: auto;
+            margin: 0;
+            padding: 0;
+            width: 100px;
+        }
+        li a{
+            display: block;
+            color: #aaffb6;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        li a.active{
+            background-color: #16ff52;
+            color: black;
+        }
+
+        li a:hover:not(.active){
+            background-color: aqua;
+            color: black;
+        }
+
+        button.btn{
+            text-align: center;
+            display: block;
+            font-weight: bold;
+            color: black;
+            background-color: #aaffb6;
+            width: 100px;
+            padding: 0;
+            text-transform: uppercase;
+            margin: 0;
+
+
+        }
+    </style>
+</head>
+<body>
+
+<div id="container" style="width:100%">
+
+<div id="header" style="background-color: coral;text-align: center">
+<h1 style="margin-bottom: 0">欢迎来到魔法部教育局霍格沃茨办公室</h1>
+</div>
+
+    <div id="menu" style="background-color: gold;height: 100%;width: 100px;float: left">
+        <ul>
+            <li><a class="active" href="#add_student">添加学生</a></li>
+            <li><a href="#add_course">添加课程</a></li>
+            <li><a href="#add_teacher">添加老师</a></li>
+            <li><a href="#quote_course">查询课程</a></li>
+        </ul>
+
+    </div>
+
+    <div id="content" style="background-color: azure;height: 100%;width:400px;left:100px;float: left">
+<!--        <a id="add_student">添加学生</a><br>-->
+<!--        <a id="add_course">添加课程</a><br>-->
+<!--        <a id="add_teacher">添加老师</a><br>-->
+<!--        <a id="quote_course">查询课程</a><br>-->
+        添加学生
+        添加课程
+        添加老师
+        查询课程
+    </div>
+
+    <div id="footer" style="background-color: #aaffb6;clear: both;text-align: center">
+        版权归膜法部所有 圈R
+    </div>
+
+
+</div>
+</body>
+</html>

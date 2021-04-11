@@ -23,28 +23,8 @@
             hint.innerHTML="你是麻瓜!";
         }else{
             hint.innerText="正准备飞天扫帚...";
-            $.ajax(
-                {
-                    url: "http://10.17.70.0:8000/admin_login",
-                    type:'get',
-                    dataType:'jsonp',
-                    jsonp:'success',
-                    jsonpCallback:'success',
-                    data:{
-                        sid:sid.value
-                    },
-                    complete:function (data,textStatus){
-                        console.log(textStatus);
-                        console.log(data);
-                    },
-                    success:function (data,textStatus){
-                        console.log("Success");
-                        console.log(data);
-                        window.open("../student_home/student_home.html?sid="+data.sid+"&name="+data.name+"&college="+data.college);
+            window.open("admin_home","魔法部门办公室","",false);
 
-                    }
-                }
-            )
         }
     }
 </script>
