@@ -65,21 +65,30 @@ def insert_ss(name, gender, college, sid, pres):
     cur = db.cursor()
     cur.execute("set search_path = 'Public'")
 
+    c='1234'
+    d='hi'
     try:
-        cur.execute("""insert into student (name, gender, college, student_id)
-        values ('%s','%s','%s', '%s') """ % (name, gender, college, sid))
+        # cur.execute("""insert into student (name, gender, college, student_id)
+        # values ('%s','%s','%s', '%s') """ % (name, gender, college, sid))
+        cur.execute("""insert into pre_encode(course_id, encode_pattern, length) 
+        VALUES ('%s', '%s', %d)""" % (c,d,4))
 
-        for c in pres:
-            cur.execute("""insert into coursedone(student_id, course_id)
-            values ('%s','%s') """ % (sid, c))
+        # for c in pres:
+        #     cur.execute("""insert into coursedone(student_id, course_id)
+        #     values ('%s','%s') """ % (sid, c))
         t={'status': 'done it'}
-    except :
+
+    except psy.DatabaseError as e:
+        print (e)
         t={'status': 'damn it, we fail it.'}
 
-    t = json.dump(t)
+    t = json.dumps(t)
     tt = "%s(%s)" % ("admin_add_student", t)
+    return tt
 
 if __name__ == '__main__':
-    a,b,c=pre('PHY203-15', "11128333")
+    a=insert_ss('mars','M','sd,','99',['1','2'])
+
+
 
 

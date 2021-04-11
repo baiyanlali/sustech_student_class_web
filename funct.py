@@ -115,6 +115,6 @@ def insert_ss(name, gender, college, sid, pres):
     except :
         t={'status': 'damn it, we fail it.'}
 
-    t = json.dump(t)
+    t = json.dumps(t)
     tt = "%s(%s)" % ("admin_add_student", t)
     return tt
