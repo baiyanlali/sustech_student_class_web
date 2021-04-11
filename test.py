@@ -39,15 +39,23 @@ def pre(cid, sid):
     encode_r = rows2[0][0]
     length_r = rows2[0][1]
 
+
+    #get raw expression of pre
+    cur.execute("""select prerequisite
+                from course
+                where courseid='%s'""" % (cid))
+    rows3 = cur.fetchall()
+    raw_pre=rows3[0][0]
+
     check=check_satisfy(encode_r,length_r, pre_list)
 
     if length_r==0 or check==1:
         r=True
     else:
         r=False
-    return done,r
+    return done,r, raw_pre
 
 if __name__ == '__main__':
-    a,b=pre('MSE330-16', "11128333")
+    a,b,c=pre('PHY203-15', "11128333")
 
 
